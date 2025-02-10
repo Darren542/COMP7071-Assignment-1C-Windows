@@ -1,0 +1,10 @@
+#include "NamespaceRedirect.h"
+
+namespace assignment1cWindows
+{
+    [default_interface]
+    runtimeclass MainPage : XAML_NAMESPACE.Controls.Page
+    {
+        MainPage();
+    }
+}

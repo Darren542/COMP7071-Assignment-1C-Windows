@@ -5,7 +5,8 @@
  * @format
  */
 
-import React from 'react';
+import React, { useState } from 'react';
+import axios from 'axios';
 import type {PropsWithChildren} from 'react';
 import {
   SafeAreaView,
@@ -15,14 +16,13 @@ import {
   Text,
   useColorScheme,
   View,
+  Platform,
+  Button,
 } from 'react-native';
 
 import {
   Colors,
-  DebugInstructions,
   Header,
-  LearnMoreLinks,
-  ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
 type SectionProps = PropsWithChildren<{
@@ -62,6 +62,25 @@ function App(): React.JSX.Element {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
+  const [message, setMessage] = useState('Loading...');
+  const API_URL = Platform.select({
+    ios: 'http://localhost:5138/test',
+    android: 'http://10.0.2.2:5138/test',
+    web: 'http://localhost:5138/test',
+    default: 'http://localhost:5138/test',
+  });
+
+  const fetchMessage = async () => {
+    try {
+      const response = await axios.get(API_URL);
+      // console.error(response.data);
+      setMessage(response.data);
+    } catch (error) {
+      console.error(error);
+      setMessage('Error fetching data');
+    }
+  };
+
   return (
     <SafeAreaView style={backgroundStyle}>
       <StatusBar
@@ -76,20 +95,17 @@ function App(): React.JSX.Element {
           style={{
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
+          <Section title="Welcome!">
+            <Text style={styles.highlight}>This is a Demo of using React Native</Text>
+            It involves a ASP.Net Core Web API for the backend and a React Native app for the frontend.
           </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
+          <Section title="Message from the server:">
+            {message}
           </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
+          <Button
+            title="Fetch Message"
+            onPress={fetchMessage}
+          />
         </View>
       </ScrollView>
     </SafeAreaView>
