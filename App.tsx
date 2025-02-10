@@ -64,10 +64,11 @@ function App(): React.JSX.Element {
 
   const [message, setMessage] = useState('Loading...');
   const API_URL = Platform.select({
-    ios: 'http://localhost:5138/test',
+    ios: 'https://assignment1cbackend-fkcygyanhxejd8cm.canadacentral-01.azurewebsites.net/test',
     android: 'http://10.0.2.2:5138/test',
     web: 'http://localhost:5138/test',
-    default: 'http://localhost:5138/test',
+    windows: 'http://localhost:5138/test',
+    default: 'https://assignment1cbackend-fkcygyanhxejd8cm.canadacentral-01.azurewebsites.net/test',
   });
 
   const fetchMessage = async () => {
